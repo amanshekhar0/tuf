@@ -12,6 +12,7 @@ interface DateCellProps {
   isEnd: boolean;
   isInRange: boolean;
   isHoverPreview: boolean;
+  hasNote: boolean;
   theme: MonthTheme;
   onClick: (date: Date) => void;
   onMouseEnter: (date: Date) => void;
@@ -25,6 +26,7 @@ const DateCell = memo(function DateCell({
   isEnd,
   isInRange,
   isHoverPreview,
+  hasNote,
   theme,
   onClick,
   onMouseEnter,
@@ -106,6 +108,43 @@ const DateCell = memo(function DateCell({
       {/* Today dot */}
       {todayFlag && !isStart && !isEnd && (
         <div className="today-dot" style={{ background: theme.accent }} />
+      )}
+
+      {/* Note indicator — small pencil dot */}
+      {hasNote && isCurrentMonth && !isStart && !isEnd && (
+        <div
+          style={{
+            position: "absolute",
+            top: 2,
+            left: 3,
+            fontSize: 7,
+            lineHeight: 1,
+            opacity: 0.9,
+            pointerEvents: "none",
+          }}
+          title="Has notes"
+          aria-label="Date has notes"
+        >
+          ✏️
+        </div>
+      )}
+
+      {/* Note indicator on selected start/end — white dot instead */}
+      {hasNote && isCurrentMonth && (isStart || isEnd) && (
+        <div
+          style={{
+            position: "absolute",
+            top: 2,
+            left: 3,
+            width: 5,
+            height: 5,
+            borderRadius: "50%",
+            background: "#020617",
+            opacity: 0.7,
+            pointerEvents: "none",
+          }}
+          aria-label="Date has notes"
+        />
       )}
 
       {/* TUF Easter Egg — day 31 */}

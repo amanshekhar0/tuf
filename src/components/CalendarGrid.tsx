@@ -8,6 +8,7 @@ import {
   endOfWeek,
   eachDayOfInterval,
   isSameMonth,
+  format,
 } from "date-fns";
 import DateCell from "@/components/DateCell";
 import type { MonthTheme } from "@/lib/monthColors";
@@ -19,6 +20,7 @@ interface CalendarGridProps {
   currentDate: Date;
   theme: MonthTheme;
   rangeSelector: UseRangeSelectorReturn;
+  notedDates: Set<string>;
   onDateClick: (date: Date) => void;
 }
 
@@ -26,6 +28,7 @@ export default function CalendarGrid({
   currentDate,
   theme,
   rangeSelector,
+  notedDates,
   onDateClick,
 }: CalendarGridProps) {
   const { isStart, isEnd, isInRange, isHoverPreview, setHoverDate } =
@@ -71,6 +74,7 @@ export default function CalendarGrid({
             isEnd={isEnd(day)}
             isInRange={isInRange(day)}
             isHoverPreview={isHoverPreview(day)}
+            hasNote={notedDates.has(format(day, "yyyy-MM-dd"))}
             theme={theme}
             onClick={onDateClick}
             onMouseEnter={setHoverDate}

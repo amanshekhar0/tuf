@@ -20,7 +20,8 @@ export interface UseNotesReturn {
 
 export function useNotes(
   selectedDate: Date | null,
-  currentMonth: Date
+  currentMonth: Date,
+  onSave?: () => void
 ): UseNotesReturn {
   const globalMonthKey =
     GLOBAL_MONTHLY_KEY + format(currentMonth, "yyyy-MM");
@@ -45,18 +46,24 @@ export function useNotes(
     (value: string) => {
       setNoteState(value);
       if (typeof window !== "undefined") {
-        localStorage.setItem(noteKey, value);
+        if (value.trim().length > 0) {
+          localStorage.setItem(noteKey, value);
+        } else {
+          localStorage.removeItem(noteKey);
+        }
+        onSave?.();
       }
     },
-    [noteKey]
+    [noteKey, onSave]
   );
 
   const clearNote = useCallback(() => {
     setNoteState("");
     if (typeof window !== "undefined") {
       localStorage.removeItem(noteKey);
+      onSave?.();
     }
-  }, [noteKey]);
+  }, [noteKey, onSave]);
 
   const exportMarkdown = useCallback(
     (selectedStart: Date | null, selectedEnd: Date | null): string => {

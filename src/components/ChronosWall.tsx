@@ -17,6 +17,7 @@ import CalendarGrid from "@/components/CalendarGrid";
 import NotesSidecar from "@/components/NotesSidecar";
 import { useRangeSelector } from "@/hooks/useRangeSelector";
 import { useMechanicalClick } from "@/hooks/useMechanicalClick";
+import { useNotesIndex } from "@/hooks/useNotesIndex";
 import { getMonthTheme } from "@/lib/monthColors";
 
 export default function ChronosWall() {
@@ -27,6 +28,7 @@ export default function ChronosWall() {
   const theme = getMonthTheme(currentDate.getMonth());
   const rangeSelector = useRangeSelector();
   const { play: clickSound } = useMechanicalClick();
+  const { notedDates, refresh: refreshNotes } = useNotesIndex();
 
   const { range, selectDate, clearRange, rangeMeta } = rangeSelector;
 
@@ -202,6 +204,7 @@ export default function ChronosWall() {
                   currentDate={currentDate}
                   theme={theme}
                   rangeSelector={rangeSelector}
+                  notedDates={notedDates}
                   onDateClick={handleDateClick}
                 />
               </motion.div>
@@ -265,6 +268,7 @@ export default function ChronosWall() {
               selectedEnd={range.endDate}
               currentMonth={currentDate}
               theme={theme}
+              onNoteChange={refreshNotes}
             />
           </div>
         </div>
@@ -309,6 +313,7 @@ export default function ChronosWall() {
                 selectedEnd={range.endDate}
                 currentMonth={currentDate}
                 theme={theme}
+                onNoteChange={refreshNotes}
               />
             </motion.div>
           </>

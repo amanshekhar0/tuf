@@ -22,6 +22,7 @@ interface NotesSidecarProps {
   currentMonth: Date;
   theme: MonthTheme;
   onCopyMarkdown?: (text: string) => void;
+  onNoteChange?: () => void;
 }
 
 const TYPEWRITER_TEXTS = [
@@ -37,10 +38,12 @@ export default function NotesSidecar({
   currentMonth,
   theme,
   onCopyMarkdown,
+  onNoteChange,
 }: NotesSidecarProps) {
   const { note, setNote, isGlobal, clearNote, exportMarkdown } = useNotes(
     selectedStart,
-    currentMonth
+    currentMonth,
+    onNoteChange
   );
 
   const [previewMode, setPreviewMode] = useState(false);
