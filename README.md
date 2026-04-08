@@ -195,4 +195,3 @@ npm run start
 
 ---
 
-*Built with ❤️ for the TakeUForward Frontend Engineering Internship Challenge.*
